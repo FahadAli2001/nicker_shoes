@@ -4,6 +4,7 @@ import 'package:nicker_shoes/lib/src/const/images.dart';
 import 'package:nicker_shoes/lib/src/const/padding.dart';
 import 'package:nicker_shoes/lib/src/custom/customTextfiled/custom_textfield.dart';
 import 'package:nicker_shoes/lib/src/views/bottomNavbar/bottom_navbar.dart';
+import 'package:nicker_shoes/lib/src/views/signupScreen/signup_screen.dart';
  
 
 class SignInScreen extends StatefulWidget {
@@ -144,7 +145,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const SignInScreen()));
+                          builder: (context) => const SignUpScreen()));
                 },
                 child: Row(
                   children: [

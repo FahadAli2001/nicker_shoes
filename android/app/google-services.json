@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "64680182537",
+    "project_id": "nicker-22983",
+    "storage_bucket": "nicker-22983.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64680182537:android:a52a5dcd2b79ba881049d8",
+        "android_client_info": {
+          "package_name": "com.example.nicker_shoes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB87Uh0lJR7upiGY_5p7ONf7bQD3QZcD-8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

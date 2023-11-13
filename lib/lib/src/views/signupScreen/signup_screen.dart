@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:nicker_shoes/lib/src/const/const_colors.dart';
 import 'package:nicker_shoes/lib/src/const/images.dart';
 import 'package:nicker_shoes/lib/src/const/padding.dart';
+import 'package:nicker_shoes/lib/src/controller/auth_controller/signup_controller.dart';
 import 'package:nicker_shoes/lib/src/custom/customTextfiled/custom_textfield.dart';
+import 'package:provider/provider.dart';
  
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -12,8 +14,10 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  
   @override
   Widget build(BuildContext context) {
+    SignUpController signUpController = Provider.of<SignUpController>(context);
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       backgroundColor: whiteColor,
@@ -74,6 +78,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               height: size.height * 0.02,
             ),
             CustomTextField(
+              textEditingController: signUpController.nameController,
               width: size.width,
             ),
             SizedBox(
@@ -90,6 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               height: size.height * 0.02,
             ),
             CustomTextField(
+              textEditingController: signUpController.emailController,
               width: size.width,
             ),
             SizedBox(
@@ -106,6 +112,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               height: size.height * 0.02,
             ),
             CustomTextField(
+              textEditingController: signUpController.passwordController,
               suffixIcon: Icon(
                 Icons.visibility_off,
                 color: subTtileColor,
@@ -116,22 +123,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
             SizedBox(
               height: size.height * 0.05,
             ),
-            Image.asset(signInBtn),
+            GestureDetector(
+              onTap: () {
+                signUpController.signUp();
+              },
+              child: Image.asset(signInBtn)),
             SizedBox(
               height: size.height * 0.03,
             ),
-            Container(
-              width: size.width,
-              height: size.height * 0.07,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Colors.white,
-              ),
-              child: Center(child: Image.asset(googleSignInBtn)),
-            ),
-            SizedBox(
-              height: size.height * 0.05,
-            ),
+            // Container(
+            //   width: size.width,
+            //   height: size.height * 0.07,
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(30),
+            //     color: Colors.white,
+            //   ),
+            //   child: Center(child: Image.asset(googleSignInBtn)),
+            // ),
+            // SizedBox(
+            //   height: size.height * 0.05,
+            // ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 70),
               child: InkWell(
