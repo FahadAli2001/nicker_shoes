@@ -17,7 +17,7 @@ class SignUpController with ChangeNotifier{
         final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
 
       } on FirebaseAuthException catch (e) {
-        log(e.toString());
+        log(e.code.toString());
         if (e.code == "weak-password") {
           Fluttertoast.showToast(
         msg: "Weak Passowrd",
