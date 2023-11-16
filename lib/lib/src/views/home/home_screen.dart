@@ -1,12 +1,17 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nicker_shoes/lib/src/const/const_colors.dart';
 import 'package:nicker_shoes/lib/src/const/icons.dart';
 import 'package:nicker_shoes/lib/src/const/padding.dart';
 import 'package:nicker_shoes/lib/src/const/shoes_category.dart';
+import 'package:nicker_shoes/lib/src/controller/home_controller/home_controller.dart';
 import 'package:nicker_shoes/lib/src/custom/customTextfiled/custom_textfield.dart';
 import 'package:nicker_shoes/lib/src/custom/custom_bottom_sheet/custom_bottom_sheet.dart';
 import 'package:nicker_shoes/lib/src/custom/custom_shoes_container/custom_shoes_container.dart';
 import 'package:nicker_shoes/lib/src/views/singleProduct/single_product_screen.dart';
+import 'package:provider/provider.dart';
  
 
 class HomeScreen extends StatefulWidget {
@@ -18,9 +23,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int categoryIndex = 0;
+  HomeController homeController = HomeController();
+  @override
+  void initState() {
+    
+    super.initState();
+   // homeController.categoryNames.clear();
+  //  homeController.getCategories();
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
+    
+
+  
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -104,45 +120,53 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 width: size.width,
                 height: size.height * 0.06,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: shoesCategory.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: horizontalPadding - 15),
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            categoryIndex = index;
-                          });
-                        },
-                        child: Container(
-                          height: size.height * 0.06,
-                          width: categoryIndex == index
-                              ? size.width * 0.3
-                              : size.width * 0.2,
-                          decoration: BoxDecoration(
-                              color: categoryIndex == index
-                                  ? primaryColor
-                                  : Colors.white,
-                              borderRadius: BorderRadius.circular(25)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              shoesCategory[index],
-                              categoryIndex == index
-                                  ? Text(
-                                      shoesCategoryName[index],
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                    )
-                                  : const Text("")
-                            ],
+                child:  StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance.collection('categories').snapshots(),
+                  
+                  builder: (context,AsyncSnapshot<QuerySnapshot> snapshot) {
+                    return ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+
+                      
+                      return Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: horizontalPadding - 15),
+                          child: InkWell(
+                            onTap: () {
+                              setState(() {
+                                categoryIndex = index;
+                              });
+                            },
+                            child: Container(
+                              height: size.height * 0.06,
+                              width: categoryIndex == index
+                                  ? size.width * 0.3
+                                  : size.width * 0.2,
+                              decoration: BoxDecoration(
+                                  color: categoryIndex == index
+                                      ? primaryColor
+                                      : Colors.white,
+                                  borderRadius: BorderRadius.circular(25)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  shoesCategory[index],
+                                  categoryIndex == index
+                                      ? Text(
+                                          snapshot.data!.docs[index].toString(),
+                                          style:
+                                              const TextStyle(color: Colors.white),
+                                        )
+                                      : const Text("")
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    );
+                        );
+                    },
+                  );
                   },
                 ),
               ),

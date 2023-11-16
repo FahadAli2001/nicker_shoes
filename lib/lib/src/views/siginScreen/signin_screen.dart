@@ -4,6 +4,7 @@ import 'package:nicker_shoes/lib/src/const/images.dart';
 import 'package:nicker_shoes/lib/src/const/padding.dart';
 import 'package:nicker_shoes/lib/src/controller/signin_controller.dart';
 import 'package:nicker_shoes/lib/src/custom/customTextfiled/custom_textfield.dart';
+import 'package:nicker_shoes/lib/src/views/bottomNavbar/bottom_navbar.dart';
  import 'package:nicker_shoes/lib/src/views/signupScreen/signup_screen.dart';
 import 'package:provider/provider.dart';
  
@@ -130,14 +131,20 @@ class _SignInScreenState extends State<SignInScreen> {
               SizedBox(
                 height: size.height * 0.03,
               ),
-              Container(
-                width: size.width,
-                height: size.height * 0.07,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Colors.white,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                 const BottomNavbar()));
+                },
+                child: Container(
+                  width: size.width,
+                  height: size.height * 0.07,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.white,
+                  ),
+                  child: Center(child: Image.asset(googleSignInBtn)),
                 ),
-                child: Center(child: Image.asset(googleSignInBtn)),
               ),
               SizedBox(
                 height: size.height * 0.1,
