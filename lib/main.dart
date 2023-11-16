@@ -1,6 +1,7 @@
  import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:nicker_shoes/lib/src/controller/auth_controller/signup_controller.dart';
+import 'package:nicker_shoes/lib/src/controller/signin_controller.dart';
 import 'package:nicker_shoes/lib/src/views/splashScreen/splash_screen.dart';
  import 'package:provider/provider.dart';
 
@@ -18,7 +19,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_)=>SignUpController())
+        ChangeNotifierProvider(create: (_)=>SignUpController()),
+        ChangeNotifierProvider(create: (_)=>SignInController())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
