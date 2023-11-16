@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+ 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nicker_shoes/lib/src/const/const_colors.dart';
@@ -11,8 +10,7 @@ import 'package:nicker_shoes/lib/src/custom/customTextfiled/custom_textfield.dar
 import 'package:nicker_shoes/lib/src/custom/custom_bottom_sheet/custom_bottom_sheet.dart';
 import 'package:nicker_shoes/lib/src/custom/custom_shoes_container/custom_shoes_container.dart';
 import 'package:nicker_shoes/lib/src/views/singleProduct/single_product_screen.dart';
-import 'package:provider/provider.dart';
- 
+  
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
