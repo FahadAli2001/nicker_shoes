@@ -153,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   shoesCategory[index],
                                   categoryIndex == index
                                       ? Text(
-                                          snapshot.data!.docs[index].toString(),
+                                          snapshot.data!.docs[index]["company_name"].toString(),
                                           style:
                                               const TextStyle(color: Colors.white),
                                         )
