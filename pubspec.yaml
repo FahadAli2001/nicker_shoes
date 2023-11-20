@@ -41,7 +41,8 @@ dependencies:
   cloud_firestore:
   top_snackbar_flutter: ^3.1.0 
   firebase_auth:
-
+  flutter_spinkit: 
+  shared_preferences: ^2.2.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

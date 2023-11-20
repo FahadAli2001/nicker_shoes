@@ -1,6 +1,6 @@
- 
 import 'package:cloud_firestore/cloud_firestore.dart';
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nicker_shoes/lib/src/const/const_colors.dart';
 import 'package:nicker_shoes/lib/src/const/icons.dart';
 import 'package:nicker_shoes/lib/src/const/padding.dart';
@@ -12,7 +12,6 @@ import 'package:nicker_shoes/lib/src/custom/custom_bottom_sheet/custom_bottom_sh
 import 'package:nicker_shoes/lib/src/custom/custom_shoes_container/custom_shoes_container.dart';
 import 'package:nicker_shoes/lib/src/views/singleProduct/single_product_screen.dart';
 import 'package:provider/provider.dart';
-  
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,27 +25,27 @@ class _HomeScreenState extends State<HomeScreen> {
   HomeController homeController = HomeController();
   @override
   void initState() {
-    
     super.initState();
-   // homeController.categoryNames.clear();
-  //  homeController.getCategories();
+    // homeController.categoryNames.clear();
+    //  homeController.getCategories();
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-    
 
-  
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white70,
         leading: InkWell(
           onTap: () {
-            showModalBottomSheet(context: context,
-             builder:(context) {
-               return const CustomButtomSheet();
-             },);
+            showModalBottomSheet(
+              context: context,
+              builder: (context) {
+                return const CustomButtomSheet();
+              },
+            );
           },
           child: Image.asset(
             menuIcon,
@@ -86,15 +85,16 @@ class _HomeScreenState extends State<HomeScreen> {
           Consumer<SignInController>(
             builder: (context, signInController, child) {
               return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: InkWell(
-                onTap: () {
-                  signInController.signOut(context);
-                },
-                child: const Icon(Icons.logout,
-                size: 30,)
-              ),
-            );
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: InkWell(
+                    onTap: () {
+                      signInController.signOut(context);
+                    },
+                    child: const Icon(
+                      Icons.logout,
+                      size: 30,
+                    )),
+              );
             },
           ),
         ],
@@ -122,17 +122,27 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 width: size.width,
                 height: size.height * 0.06,
-                child:  StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('categories').snapshots(),
-                  
-                  builder: (context,  snapshot) {
+                child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('categories')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return SpinKitFadingCircle(
+                        itemBuilder: (BuildContext context, int index) {
+                          return DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: index.isEven ? primaryColor : Colors.green,
+                            ),
+                          );
+                        },
+                      );
+                    }
                     return ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) {
-
-                      
-                      return Padding(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: horizontalPadding - 15),
                           child: InkWell(
@@ -152,14 +162,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                       : Colors.white,
                                   borderRadius: BorderRadius.circular(25)),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   shoesCategory[index],
                                   categoryIndex == index
                                       ? Text(
-                                          snapshot.data!.docs[index]["company_name"].toString(),
-                                          style:
-                                              const TextStyle(color: Colors.white),
+                                          snapshot
+                                              .data!.docs[index]["company_name"]
+                                              .toString(),
+                                          style: const TextStyle(
+                                              color: Colors.white),
                                         )
                                       : const Text("")
                                 ],
@@ -167,8 +180,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         );
-                    },
-                  );
+                      },
+                    );
                   },
                 ),
               ),
@@ -207,16 +220,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SingleProductScreen(
-                                        image: popularShoes[index],
-                                      )));
-                        },
-                        child: CustomShoesContainer(index: index,)
-                      ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SingleProductScreen(
+                                          image: popularShoes[index],
+                                        )));
+                          },
+                          child: CustomShoesContainer(
+                            index: index,
+                          )),
                     );
                   },
                 ),

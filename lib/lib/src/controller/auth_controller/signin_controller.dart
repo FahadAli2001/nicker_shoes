@@ -5,16 +5,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nicker_shoes/lib/src/views/bottomNavbar/bottom_navbar.dart';
 import 'package:nicker_shoes/lib/src/views/onboardScreens/onboard_screen_one.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class SignInController with ChangeNotifier {
+  
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  String? name;
-  String? email;
    
   Future<void> signIn(context) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
     String email = emailController.text;
     String password = passwordController.text;
     try {
@@ -22,7 +23,8 @@ class SignInController with ChangeNotifier {
           .signInWithEmailAndPassword(email: email, password: password);
       
       //log(credential.user!.uid);
-      fetchDataOfUser(credential.user!.uid);
+      
+      sp.setString("userId",credential.user!.uid);
       showTopSnackBar(
         Overlay.of(context),
         const CustomSnackBar.success(
@@ -72,33 +74,14 @@ class SignInController with ChangeNotifier {
         notifyListeners();
       }
     }
-  }
-
-
-  Future<void> fetchDataOfUser(String userId) async {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-  try {
-     
-    DocumentSnapshot documentSnapshot = await firestore.collection('users').doc(userId).get();
-
-    if (documentSnapshot.exists) {
-       
-      Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
-
-      
-        name = data['name'];
-        email = data['email'];
-
-      notifyListeners();
-    } else {
-      
+    catch(e){
+      log(e.toString());
     }
-  } catch (e) {
-    log('Error fetching specific data: $e');
   }
-}
 
+
+
+  
 void signOut(context)async{
   try {
     await FirebaseAuth.instance.signOut();

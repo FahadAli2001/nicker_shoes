@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nicker_shoes/lib/src/controller/auth_controller/signup_controller.dart';
 import 'package:nicker_shoes/lib/src/controller/home_controller/home_controller.dart';
 import 'package:nicker_shoes/lib/src/controller/auth_controller/signin_controller.dart';
+import 'package:nicker_shoes/lib/src/controller/profile_controller/profile_controller.dart';
 import 'package:nicker_shoes/lib/src/views/splashScreen/splash_screen.dart';
  import 'package:provider/provider.dart';
 
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_)=>SignUpController()),
         ChangeNotifierProvider(create: (_)=>SignInController()),
-        ChangeNotifierProvider(create: (_)=>HomeController())
+        ChangeNotifierProvider(create: (_)=>HomeController()),
+        ChangeNotifierProvider(create: (_)=>ProfileController())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
