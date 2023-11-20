@@ -7,6 +7,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ProfileController extends ChangeNotifier {
   String? name;
   String? email;
+  String? contact;
+  bool textfieldEnable = false;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController contactController = TextEditingController();
 
   Future<void> fetchDataOfUser() async {
     String? userId;
@@ -26,10 +31,18 @@ class ProfileController extends ChangeNotifier {
         name = data['name'];
         email = data['email'];
 
-        notifyListeners();
-      } else {}
+        nameController.text = name ?? '';  
+        emailController.text = email ?? '';
+        contactController.text = contact ?? '';
+      }
     } catch (e) {
       log('Error fetching specific data: $e');
     }
+    notifyListeners();
+  }
+
+  void enableTextField(){
+    textfieldEnable = true;
+    notifyListeners();
   }
 }

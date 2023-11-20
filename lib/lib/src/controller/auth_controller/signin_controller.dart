@@ -1,7 +1,6 @@
 import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nicker_shoes/lib/src/views/bottomNavbar/bottom_navbar.dart';
 import 'package:nicker_shoes/lib/src/views/onboardScreens/onboard_screen_one.dart';
