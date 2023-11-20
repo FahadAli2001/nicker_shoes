@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:nicker_shoes/lib/src/controller/auth_controller/signup_controller.dart';
 import 'package:nicker_shoes/lib/src/controller/home_controller/home_controller.dart';
-import 'package:nicker_shoes/lib/src/controller/signin_controller.dart';
+import 'package:nicker_shoes/lib/src/controller/auth_controller/signin_controller.dart';
 import 'package:nicker_shoes/lib/src/views/splashScreen/splash_screen.dart';
  import 'package:provider/provider.dart';
 

@@ -1,15 +1,17 @@
  
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:nicker_shoes/lib/src/const/const_colors.dart';
 import 'package:nicker_shoes/lib/src/const/icons.dart';
 import 'package:nicker_shoes/lib/src/const/padding.dart';
 import 'package:nicker_shoes/lib/src/const/shoes_category.dart';
+import 'package:nicker_shoes/lib/src/controller/auth_controller/signin_controller.dart';
 import 'package:nicker_shoes/lib/src/controller/home_controller/home_controller.dart';
 import 'package:nicker_shoes/lib/src/custom/customTextfiled/custom_textfield.dart';
 import 'package:nicker_shoes/lib/src/custom/custom_bottom_sheet/custom_bottom_sheet.dart';
 import 'package:nicker_shoes/lib/src/custom/custom_shoes_container/custom_shoes_container.dart';
 import 'package:nicker_shoes/lib/src/views/singleProduct/single_product_screen.dart';
+import 'package:provider/provider.dart';
   
 
 class HomeScreen extends StatefulWidget {
@@ -81,17 +83,19 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         centerTitle: true,
         actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: InkWell(
-              onTap: () {
-             //   Navigator.push(context, MaterialPageRoute(builder: (context)=>const CartScreen()));
-              },
-              child: Image.asset(
-                shoppingIcon,
-                width: 40,
+          Consumer<SignInController>(
+            builder: (context, signInController, child) {
+              return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: InkWell(
+                onTap: () {
+                  signInController.signOut(context);
+                },
+                child: const Icon(Icons.logout,
+                size: 30,)
               ),
-            ),
+            );
+            },
           ),
         ],
       ),
@@ -118,10 +122,10 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 width: size.width,
                 height: size.height * 0.06,
-                child:  StreamBuilder<QuerySnapshot>(
+                child:  StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('categories').snapshots(),
                   
-                  builder: (context,AsyncSnapshot<QuerySnapshot> snapshot) {
+                  builder: (context,  snapshot) {
                     return ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: snapshot.data!.docs.length,

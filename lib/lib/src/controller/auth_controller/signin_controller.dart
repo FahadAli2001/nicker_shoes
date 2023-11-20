@@ -2,16 +2,18 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:nicker_shoes/lib/src/views/bottomNavbar/bottom_navbar.dart';
+import 'package:nicker_shoes/lib/src/views/onboardScreens/onboard_screen_one.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class SignInController with ChangeNotifier {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-   String? name;
+  String? name;
   String? email;
+   
   Future<void> signIn(context) async {
     String email = emailController.text;
     String password = passwordController.text;
@@ -33,6 +35,7 @@ class SignInController with ChangeNotifier {
         (route) => false,  
       );
       clearTextField();
+      notifyListeners();
     } on FirebaseAuthException catch (e) {
       log("$e login error");
       if (e.code == 'user-not-found') {
@@ -42,6 +45,7 @@ class SignInController with ChangeNotifier {
             message: "User Not Found",
           ),
         );
+        notifyListeners();
       } else if (e.code == 'wrong-password') {
         showTopSnackBar(
           Overlay.of(context),
@@ -49,6 +53,7 @@ class SignInController with ChangeNotifier {
             message: "Wrong Password",
           ),
         );
+        notifyListeners();
       } else if (e.code == "network-request-failed") {
         showTopSnackBar(
           Overlay.of(context),
@@ -56,6 +61,7 @@ class SignInController with ChangeNotifier {
             message: "Check your internet",
           ),
         );
+        notifyListeners();
       } else if (e.code == "INVALID_LOGIN_CREDENTIALS") {
         showTopSnackBar(
           Overlay.of(context),
@@ -63,6 +69,7 @@ class SignInController with ChangeNotifier {
             message: "Invalid Credential",
           ),
         );
+        notifyListeners();
       }
     }
   }
@@ -83,18 +90,34 @@ class SignInController with ChangeNotifier {
         name = data['name'];
         email = data['email'];
 
-      
+      notifyListeners();
     } else {
-     // log('Document with ID $userId does not exist.');
+      
     }
   } catch (e) {
     log('Error fetching specific data: $e');
   }
 }
 
+void signOut(context)async{
+  try {
+    await FirebaseAuth.instance.signOut();
+     Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const OnboardScreenOne()),
+        (route) => false,  
+      );
+
+  } catch (e) {
+    log(e.toString());
+  }
+  notifyListeners();
+}
 
  void clearTextField(){
   emailController.clear();
   passwordController.clear();
  }
+
+
 }
