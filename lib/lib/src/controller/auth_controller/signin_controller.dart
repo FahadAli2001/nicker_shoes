@@ -2,6 +2,7 @@ import 'dart:developer';
 
  import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nicker_shoes/lib/src/views/bottomNavbar/bottom_navbar.dart';
 import 'package:nicker_shoes/lib/src/views/onboardScreens/onboard_screen_one.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -84,6 +85,7 @@ class SignInController with ChangeNotifier {
 void signOut(context)async{
   try {
     await FirebaseAuth.instance.signOut();
+    await GoogleSignIn().disconnect();
      Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => const OnboardScreenOne()),
@@ -100,6 +102,40 @@ void signOut(context)async{
   emailController.clear();
   passwordController.clear();
  }
+
+ googleLogin(context) async {
+    log("googleLogin method Called");
+    GoogleSignIn googleSignIn = GoogleSignIn();
+    try {
+      var reslut = await googleSignIn.signIn();
+      if (reslut == null) {
+        return;
+      }
+      
+      final userData = await reslut.authentication;
+      final credential = GoogleAuthProvider.credential(
+          accessToken: userData.accessToken, idToken: userData.idToken);
+      var finalResult = await FirebaseAuth.instance.signInWithCredential(credential);
+      log("Result $reslut");
+      log(reslut.displayName.toString());
+      log(reslut.email);
+      log(reslut.photoUrl.toString());
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const BottomNavbar()),
+        (route) => false,  
+      );
+       showTopSnackBar(
+          Overlay.of(context),
+          const CustomSnackBar.success(
+            message: "Successfully login with google",
+          ),
+        );
+    } catch (error) {
+      log(error.toString());
+    }
+    notifyListeners();
+  }
 
 
 }

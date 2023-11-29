@@ -43,6 +43,7 @@ dependencies:
   firebase_auth:
   flutter_spinkit: 
   shared_preferences: ^2.2.2
+  google_sign_in: 
 dev_dependencies:
   flutter_test:
     sdk: flutter
