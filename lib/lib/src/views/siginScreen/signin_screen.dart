@@ -4,8 +4,7 @@ import 'package:nicker_shoes/lib/src/const/images.dart';
 import 'package:nicker_shoes/lib/src/const/padding.dart';
 import 'package:nicker_shoes/lib/src/controller/auth_controller/signin_controller.dart';
 import 'package:nicker_shoes/lib/src/custom/customTextfiled/custom_textfield.dart';
-import 'package:nicker_shoes/lib/src/views/bottomNavbar/bottom_navbar.dart';
- import 'package:nicker_shoes/lib/src/views/signupScreen/signup_screen.dart';
+import 'package:nicker_shoes/lib/src/views/signupScreen/signup_screen.dart';
 import 'package:provider/provider.dart';
  
 
