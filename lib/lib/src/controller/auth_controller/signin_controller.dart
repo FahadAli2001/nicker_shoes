@@ -115,7 +115,7 @@ void signOut(context)async{
       final userData = await reslut.authentication;
       final credential = GoogleAuthProvider.credential(
           accessToken: userData.accessToken, idToken: userData.idToken);
-      var finalResult = await FirebaseAuth.instance.signInWithCredential(credential);
+      await FirebaseAuth.instance.signInWithCredential(credential);
       log("Result $reslut");
       log(reslut.displayName.toString());
       log(reslut.email);

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -210,32 +212,73 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: size.height * 0.02,
               ),
               //
-              SizedBox(
-                width: size.width,
-                height: size.height * 0.35,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: popularShoes.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SingleProductScreen(
-                                          image: popularShoes[index],
-                                        )));
-                          },
-                          child: CustomShoesContainer(
-                            index: index,
-                          )),
-                    );
-                  },
+            StreamBuilder<DocumentSnapshot>(
+  stream: FirebaseFirestore.instance
+      .collection("categories")
+      .doc("nike")
+      .snapshots(),
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return SpinKitFadingCircle(
+        itemBuilder: (BuildContext context, int index) {
+          return const DecoratedBox(
+            decoration: BoxDecoration(
+              color: Colors.green,
+            ),
+          );
+        },
+      );
+    }
+    if (snapshot.hasError) {
+      return const Text(
+        "Error",
+        style: TextStyle(color: Colors.black),
+      );
+    }
+
+    // Accessing data from the DocumentSnapshot
+    if (snapshot.hasData && snapshot.data!.exists) {
+      var data = snapshot.data!.data() as Map<String, dynamic>;
+      List<dynamic> nikeData = data['nike']; // Assuming 'nike' is a list field
+
+      return SizedBox(
+        width: size.width,
+        height: size.height * 0.35,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: nikeData.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InkWell(
+                onTap: () {
+                         // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => SingleProductScreen(
+                            //               image: popularShoes[index],
+                            //             )));
+                },
+                child: CustomShoesContainer(
+                  index: index,
+                  image: nikeData[index]["image"],
+                  name: nikeData[index]["name"],
+                  price: nikeData[index]["price"],
                 ),
               ),
-              //
+            );
+          },
+        ),
+      );
+    } else {
+      return const Text(
+        "No Data",
+        style: TextStyle(color: Colors.black),
+      );
+    }
+  },
+),
+
               SizedBox(
                 height: size.height * 0.02,
               ),
